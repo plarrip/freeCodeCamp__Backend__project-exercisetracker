@@ -60,7 +60,8 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
       userId: id,
       description,
       duration: Number(duration),
-      date: date ? new Date(date) : new Date()
+      date: date ? new Date(date).toDateString() : new Date().toDateString()
+
     })
 
     await exercise.save()
@@ -115,7 +116,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     const log = exercises.map(e => ({
       description: e.description,
       duration: e.duration,
-      date: e.date ? new Date(e.date).toDateString() : new Date().toDateString()
+      date: e.date.toDateString()
     }))      
 
     // 💡 Debug
