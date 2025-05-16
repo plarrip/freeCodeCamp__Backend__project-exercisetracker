@@ -115,9 +115,13 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     const log = exercises.map(e => ({
       description: e.description,
       duration: e.duration,
-      date: e.date.toDateString()
-    }))
+      date: e.date ? new Date(e.date).toDateString() : new Date().toDateString()
+    }))      
 
+    // 💡 Debug
+    console.log('DEBUG log entry:', log[0])
+    console.log('DEBUG typeof date:', typeof log[0].date)
+    
     res.json({
       username: user.username,
       count: exercises.length,
