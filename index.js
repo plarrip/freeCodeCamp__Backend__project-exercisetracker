@@ -55,13 +55,18 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
-    
+
+    // Parse and validate date
+    let exerciseDate = new Date(date)
+    if (date === undefined || isNaN(exerciseDate.getTime())) {
+      exerciseDate = new Date()
+    }
+
     const exercise = new Exercise({
       userId: id,
       description,
       duration: Number(duration),
-      date: date ? new Date(date).toDateString() : new Date().toDateString()
-
+      date: exerciseDate
     })
 
     await exercise.save()
@@ -77,6 +82,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
     res.status(400).json({ error: 'Failed to add exercise' })
   }
 })
+  
 
 
 //GET
